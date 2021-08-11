@@ -1,2 +1,3 @@
 name: Andrew Cummings, Data Science Production
 markdown: kramdown
+permalink: /blog/:year/:month/:day/:title
