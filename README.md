@@ -1,6 +1,2 @@
-#under construction
-
-
-
-
-#acummings2020.github.io
+# under construction
+# acummings2020.github.io
