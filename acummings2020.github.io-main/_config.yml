@@ -1,0 +1,64 @@
+# =============================================================================
+# _config.yml — Jekyll site configuration
+# -----------------------------------------------------------------------------
+# This is the ONE place to change site-wide info. After editing, GitHub Pages
+# rebuilds automatically on push. Anything under `site.*` in a layout/page reads
+# from this file (e.g. {{ site.title }} in default.html reads `title:` below).
+# =============================================================================
+
+# ---- Basic identity ---------------------------------------------------------
+# `title` shows in browser tabs, RSS feed, and the site header.
+title: "Andrew Cummings"
+
+# `tagline` shows under your name on the home page.
+tagline: "Data scientist. Rower. Explaining models to humans."
+
+# `description` is used in <meta> tags for search engines and link previews.
+description: >-
+  Andrew Cummings — data science notes, projects, and blog posts for
+  practitioners, curious friends, and anyone new to the field.
+
+# `author` is used in the atom feed and page metadata.
+author:
+  name: "Andrew Cummings"
+  email: "andrew.arc13@gmail.com"
+
+# ---- URLs (used by feed + absolute links) ----------------------------------
+# `url` is the full production URL (no trailing slash). GitHub Pages sets this
+# for you at build time but declaring it makes local previews behave the same.
+url: "https://acummings2020.github.io"
+
+# `baseurl` is the subpath the site is served from. For a user site
+# (username.github.io) leave this as empty string "".
+baseurl: ""
+
+# ---- Social / contact links (used in footer) --------------------------------
+# Change or remove any of these — the footer template silently skips blanks.
+social:
+  github:   "acummings2020"
+  linkedin: ""        # e.g. "andrew-cummings"
+  twitter:  ""        # e.g. "acummings"
+  email:    "andrew.arc13@gmail.com"
+
+# ---- Content settings -------------------------------------------------------
+# `markdown` = which Markdown engine to use. `kramdown` is GitHub Pages default.
+markdown: kramdown
+
+# `permalink` = URL structure for blog posts. `/blog/2025/07/01/my-post/`.
+permalink: /blog/:year/:month/:day/:title/
+
+# Show 10 posts per blog index page (if you ever add pagination).
+paginate: 10
+
+# ---- Build settings ---------------------------------------------------------
+# Files/folders Jekyll should NOT copy into the built site.
+exclude:
+  - README.md
+  - SITE-INFO.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .gitignore
+
+# Timezone for post dates. Change to your local zone if you care about hours.
+timezone: America/New_York

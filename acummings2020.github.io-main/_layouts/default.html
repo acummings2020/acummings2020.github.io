@@ -1,0 +1,108 @@
+<!--
+  _layouts/default.html
+  ---------------------------------------------------------------------------
+  Every page on the site is rendered through a layout. This is the "outer
+  wrapper" — header, nav, footer — and the individual page's content is
+  dropped into the {{ content }} placeholder below.
+
+  Anything in {{ double curly braces }} is a Liquid template variable that
+  Jekyll fills in at build time:
+    * site.*   — values from _config.yml
+    * page.*   — front-matter of the current page (e.g. title: ... at top of index.html)
+-->
+<!DOCTYPE html>
+<!-- Declares this document as HTML5. Browsers need this on line 1. -->
+<html lang="en">
+  <!-- lang="en" tells screen readers and search engines the site is in English. -->
+
+  <head>
+    <!-- <head> holds metadata: not shown on the page itself, but used by browsers,
+         search engines, and social sites for link previews. -->
+
+    <!-- Character encoding. UTF-8 supports every language and emoji. Always first. -->
+    <meta charset="utf-8">
+
+    <!-- Makes the site render properly on phones (respect device width, no zoom-out). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Browser tab title. If the page defines its own `title:` in front-matter,
+         use it; otherwise fall back to site.title from _config.yml. -->
+    <title>{% if page.title %}{{ page.title }} · {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+    <!-- Short description used by Google search snippets and social previews. -->
+    <meta name="description" content="{{ site.description }}">
+
+    <!-- Author name for search engines. -->
+    <meta name="author" content="{{ site.author.name }}">
+
+    <!-- Open Graph tags = how the site looks when you paste a link into
+         LinkedIn, Slack, Twitter, iMessage, etc. Optional but nice to have. -->
+    <meta property="og:title" content="{{ page.title | default: site.title }}">
+    <meta property="og:description" content="{{ site.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+
+    <!-- Link to the main stylesheet. `relative_url` prepends baseurl so it
+         works whether the site lives at the domain root or a subpath. -->
+    <link rel="stylesheet" type="text/css" href="{{ '/css/main.css' | relative_url }}">
+
+    <!-- Point RSS readers at the atom feed. -->
+    <link rel="alternate" type="application/atom+xml" title="{{ site.title }}"
+          href="{{ '/blog/atom.xml' | relative_url }}">
+  </head>
+
+  <body>
+    <!-- <body> holds the visible page content. -->
+
+    <!-- Site header. <header> is a semantic HTML5 element — screen readers
+         announce it as the top of the page. -->
+    <header class="site-header">
+      <!-- Site title / brand. Clicking it always returns you to the home page. -->
+      <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+
+      <!-- <nav> = primary navigation region. -->
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <!-- Each <li> is one nav link. `relative_url` again for portability. -->
+          <li><a href="{{ '/'      | relative_url }}">Home</a></li>
+          <li><a href="{{ '/about' | relative_url }}">About</a></li>
+          <li><a href="{{ '/cv'    | relative_url }}">CV</a></li>
+          <li><a href="{{ '/blog'  | relative_url }}">Blog</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- <main> = the primary content of the page. There should be exactly one
+         <main> per page. Screen readers can jump straight to it. -->
+    <main class="container">
+      <!-- {{ content }} is where Jekyll injects the actual page/post body.
+           Everything you write in index.html, cv.md, blog posts, etc. lands
+           here. -->
+      {{ content }}
+    </main>
+
+    <!-- Site footer. Also a landmark for screen readers. -->
+    <footer class="site-footer">
+      <!-- Left side: copyright with a Liquid filter to print the current year. -->
+      <p>&copy; {{ site.time | date: "%Y" }} {{ site.author.name }}</p>
+
+      <!-- Right side: contact links. `{% if %}` blocks silently omit any link
+           you left blank in _config.yml, so no broken empty anchors. -->
+      <ul class="social-links">
+        {% if site.social.email %}
+          <li><a href="mailto:{{ site.social.email }}">email</a></li>
+        {% endif %}
+        {% if site.social.github %}
+          <li><a href="https://github.com/{{ site.social.github }}">github</a></li>
+        {% endif %}
+        {% if site.social.linkedin %}
+          <li><a href="https://linkedin.com/in/{{ site.social.linkedin }}">linkedin</a></li>
+        {% endif %}
+        {% if site.social.twitter %}
+          <li><a href="https://twitter.com/{{ site.social.twitter }}">twitter</a></li>
+        {% endif %}
+        <li><a href="{{ '/blog/atom.xml' | relative_url }}">rss</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

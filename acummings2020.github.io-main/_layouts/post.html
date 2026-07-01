@@ -1,0 +1,45 @@
+---
+# The three dashes above are "front-matter". Every layout/page/post that
+# Jekyll should process starts with front-matter (even if it's empty).
+# `layout: default` means this post layout is itself wrapped by default.html —
+# so the header/nav/footer still appear around each post automatically.
+layout: default
+---
+
+<!--
+  _layouts/post.html
+  ---------------------------------------------------------------------------
+  This wraps the body of every blog post in _posts/. Because we set
+  `layout: default` above, the site header/nav/footer wrap around this file's
+  output automatically.
+-->
+
+<!-- <article> = a self-contained piece of content. Correct semantic tag for a
+     blog post. Screen readers and search engines treat it accordingly. -->
+<article class="post">
+
+  <!-- <header> inside an <article> = the post's own header (title + date),
+       distinct from the site header up top. -->
+  <header class="post-header">
+    <!-- Post title comes from the `title:` line in the post's front-matter. -->
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <!-- <time> is the semantic tag for dates. `datetime` attribute is the
+         machine-readable form; the text inside is what humans see. -->
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+    </p>
+  </header>
+
+  <!-- The actual post body — whatever you wrote in Markdown lives here. -->
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  <!-- Post footer: a "back to blog" link so readers don't get stuck. -->
+  <footer class="post-footer">
+    <p><a href="{{ '/blog' | relative_url }}">&larr; Back to all posts</a></p>
+  </footer>
+</article>

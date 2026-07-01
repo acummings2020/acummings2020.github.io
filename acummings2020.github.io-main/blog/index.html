@@ -1,0 +1,21 @@
+---
+layout: default
+title: Blog
+permalink: /blog/
+---
+
+<h1>{{ page.title }}</h1>
+
+<!-- Iterate over every post in _posts/ (newest first is the default). -->
+<ul class="posts">
+  {% for post in site.posts %}
+    <li>
+      <!-- Date first, styled like a fixed-width column via .post-date in CSS. -->
+      <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Handy link so people can subscribe. -->
+<p><a href="{{ '/blog/atom.xml' | relative_url }}">Subscribe via RSS</a></p>

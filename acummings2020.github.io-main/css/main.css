@@ -1,0 +1,376 @@
+/* =============================================================================
+   main.css — site-wide styling
+   -----------------------------------------------------------------------------
+   READ THIS FIRST:
+   The block right below (:root) is the "control panel". Change a color or
+   font size ONCE there and it updates everywhere on the site. You almost
+   never need to edit the rest of this file to change how the site looks.
+   ============================================================================= */
+
+
+/* -----------------------------------------------------------------------------
+   :root — CSS custom properties (variables).
+   `:root` targets the top of the document. Anything defined here is available
+   to every rule below via `var(--name)`. This is the ONE place to tweak
+   colors, fonts, and spacing.
+   ----------------------------------------------------------------------------- */
+:root {
+
+  /* --- Colors: light mode ------------------------------------------------- */
+  /* Page background. Off-white is easier on the eyes than pure white. */
+  --color-bg:            #fdfdfc;
+
+  /* Main body text color. Very dark grey rather than pure black — softer. */
+  --color-text:          #1f2933;
+
+  /* Muted text: dates, footer, captions. Slightly lighter than body. */
+  --color-text-muted:    #52606d;
+
+  /* Accent color for links and highlights.
+     Pick your color here. Suggestions for a data-science-y feel:
+       Teal:    #0f766e
+       Indigo:  #4338ca
+       Slate blue: #2b6cb0
+       Burgundy: #9f1239
+     Change this one value and every link / accent updates. */
+  --color-accent:        #0f766e;
+
+  /* Darker accent for hover / active states. */
+  --color-accent-hover:  #134e4a;
+
+  /* Thin lines: hr, borders under the header/footer. */
+  --color-border:        #e4e7eb;
+
+  /* Background for inline `code` and code blocks. */
+  --color-code-bg:       #f1f5f9;
+
+  /* --- Typography --------------------------------------------------------- */
+  /* Font stacks list preferred fonts first, then fallbacks. Browser walks the
+     list and uses the first one installed. -apple-system / BlinkMacSystemFont
+     pick the OS default (San Francisco on Mac, Segoe on Windows) — fast and
+     familiar with zero web-font loading. */
+  --font-body:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                  "Helvetica Neue", Arial, sans-serif;
+  --font-heading: var(--font-body); /* Reuse body font for headings. Swap here
+                                       for something like Georgia if you want
+                                       serif headings. */
+  --font-mono:    "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Base font size. Everything else scales off this via `em`/`rem`.
+     Bumping this to 18px makes the whole site feel more spacious. */
+  --font-size-base: 17px;
+
+  /* --- Layout ------------------------------------------------------------- */
+  /* Max reading width. 40em ≈ ~70 characters per line — the readability
+     sweet spot for long-form text. */
+  --content-max-width: 40em;
+
+  /* Vertical rhythm — a "unit" of spacing to reuse. */
+  --space: 1.25rem;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Dark mode.
+   If the visitor's OS is set to dark mode, override the color variables.
+   Everything below in the file uses var(...) so nothing else changes.
+   Delete this whole block if you want to force light mode always.
+   ----------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg:           #0f172a;
+    --color-text:         #e5e7eb;
+    --color-text-muted:   #94a3b8;
+    --color-accent:       #5eead4;   /* teal, brighter for dark bg */
+    --color-accent-hover: #99f6e4;
+    --color-border:       #1e293b;
+    --color-code-bg:      #1e293b;
+  }
+}
+
+
+/* -----------------------------------------------------------------------------
+   Base / reset — sensible defaults.
+   ----------------------------------------------------------------------------- */
+
+/* `box-sizing: border-box` makes width calculations intuitive: an element's
+   declared width INCLUDES its padding and border. Applied to everything. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Root font-size + smooth-scroll when clicking in-page anchor links. */
+html {
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+}
+
+/* Body: the page background, base text color, and comfy line-height. */
+body {
+  margin: 0;                              /* Remove default 8px browser margin. */
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.6;                       /* 1.4–1.7 is the readable range. */
+
+  /* Make body a vertical flex container so the footer can be pushed to the
+     bottom of the viewport on short pages. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;                      /* 100% of viewport height. */
+}
+
+
+/* -----------------------------------------------------------------------------
+   Site header (top bar with name + nav).
+   ----------------------------------------------------------------------------- */
+.site-header {
+  /* flex row: title on the left, nav on the right. */
+  display: flex;
+  justify-content: space-between;         /* push nav to the far right */
+  align-items: center;                    /* vertically center both */
+  flex-wrap: wrap;                        /* wrap to new line on narrow screens */
+
+  max-width: var(--content-max-width);
+  margin: 0 auto;                         /* center horizontally on the page */
+  padding: 2rem 1rem 1rem;                /* top / sides / bottom */
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Your name / brand in the header. */
+.site-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);               /* don't tint the name accent color */
+  text-decoration: none;                  /* no underline */
+}
+
+/* Nav list styling. */
+.site-nav ul {
+  list-style: none;                       /* no bullet points */
+  padding: 0;
+  margin: 0;
+  display: flex;                          /* items in a row */
+  gap: 1.25rem;                           /* space between items */
+  flex-wrap: wrap;                        /* wrap on narrow screens */
+}
+
+.site-nav a {
+  color: var(--color-text-muted);         /* muted by default */
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+/* Highlight nav links on hover / keyboard focus (accessibility!). */
+.site-nav a:hover,
+.site-nav a:focus {
+  color: var(--color-accent);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Main content container.
+   ----------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);    /* cap width for readability */
+  margin: 0 auto;                         /* center horizontally */
+  padding: 2rem 1rem;                     /* breathing room on all sides */
+  flex: 1;                                /* fill remaining vertical space */
+}
+
+
+/* -----------------------------------------------------------------------------
+   Typography — headings, paragraphs, links.
+   ----------------------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  line-height: 1.25;                      /* tighter than body */
+  margin: 2rem 0 1rem;                    /* space above > space below */
+  color: var(--color-text);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.6rem;  }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem;  }
+
+p {
+  margin: 0 0 var(--space);               /* only space BELOW paragraphs
+                                             (prevents double-space stacking) */
+}
+
+/* Body links: accent color, no underline until hover. */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+/* Blockquote — for pull quotes or emphasis. */
+blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding: 0.25rem 1rem;
+  margin: var(--space) 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Inline code — e.g. `pandas.DataFrame`. */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-code-bg);
+  padding: 0.15em 0.35em;
+  border-radius: 3px;
+}
+
+/* Code block — the <pre> that wraps ```fenced``` code in Markdown. */
+pre {
+  background: var(--color-code-bg);
+  padding: 1rem;
+  overflow-x: auto;                       /* horizontal scroll if code is wide */
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+pre code {
+  background: none;                       /* no double-background */
+  padding: 0;
+}
+
+/* Images should never overflow their container. */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Horizontal rule — subtle divider. */
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2rem 0;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Home page hero ("blurb") — the greeting on index.html.
+   ----------------------------------------------------------------------------- */
+.blurb {
+  margin: 2rem 0 3rem;
+}
+.blurb h1 {
+  margin-top: 0;
+}
+.blurb .lead {
+  font-size: 1.15rem;                     /* slightly larger than body */
+  color: var(--color-text-muted);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Blog index — the list of posts on /blog/.
+   ----------------------------------------------------------------------------- */
+ul.posts {
+  list-style: none;
+  padding: 0;
+  margin: var(--space) 0;
+}
+
+ul.posts li {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--color-border);
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+/* The date next to each post — muted, fixed-ish width for a tidy column. */
+ul.posts .post-date {
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  min-width: 7rem;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Individual post.
+   ----------------------------------------------------------------------------- */
+.post-header {
+  margin-bottom: 2rem;
+}
+.post-meta {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: -0.5rem;                    /* pull date closer to the title */
+}
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.95rem;
+}
+
+
+/* -----------------------------------------------------------------------------
+   Site footer.
+   ----------------------------------------------------------------------------- */
+.site-footer {
+  max-width: var(--content-max-width);
+  margin: 3rem auto 0;
+  padding: 1.5rem 1rem 2rem;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Footer link list — inline, spaced. */
+.site-footer ul.social-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.site-footer a {
+  color: var(--color-text-muted);
+}
+.site-footer a:hover {
+  color: var(--color-accent);
+}
+
+
+/* -----------------------------------------------------------------------------
+   Small screens (phones).
+   Below 500px wide, stack the header vertically so nothing crushes.
+   ----------------------------------------------------------------------------- */
+@media (max-width: 500px) {
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  h1 { font-size: 1.85rem; }
+}

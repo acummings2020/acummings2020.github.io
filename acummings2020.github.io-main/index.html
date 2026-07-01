@@ -1,0 +1,52 @@
+---
+# Front-matter for the home page.
+# `layout: default` = wrap this content in _layouts/default.html (header/nav/footer).
+# `title:` sets the browser tab title for the home page.
+layout: default
+title: Home
+---
+
+<!--
+  index.html
+  ---------------------------------------------------------------------------
+  This is the site's landing page (loaded at "/"). Everything below drops
+  into {{ content }} inside default.html — so no <html>, <head>, <body> here.
+-->
+
+<!-- Home-page hero block. .blurb is styled in main.css. -->
+<section class="blurb">
+  <h1>Hi, I'm Andrew Cummings.</h1>
+
+  <!-- .lead is the larger, muted intro paragraph. -->
+  <p class="lead">
+    I'm a data scientist who likes making models (and modelling choices)
+    understandable — whether you're a fellow practitioner, a curious friend,
+    or someone brand new to the field. I also row.
+  </p>
+
+  <p>
+    You can read
+    <a href="{{ '/about' | relative_url }}">a bit about me</a>,
+    grab my <a href="{{ '/cv' | relative_url }}">CV</a>,
+    or check out the <a href="{{ '/blog' | relative_url }}">blog</a> for
+    write-ups on model selection, everyday data-science reasoning, and
+    other things I'm learning out loud.
+  </p>
+</section>
+
+<!-- Optional: preview the three most recent posts on the home page.
+     Delete this block if you'd rather keep the landing page minimal. -->
+{% if site.posts.size > 0 %}
+  <section class="recent-posts">
+    <h2>Recent posts</h2>
+    <ul class="posts">
+      {% for post in site.posts limit:3 %}
+        <li>
+          <span class="post-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{ '/blog' | relative_url }}">All posts &rarr;</a></p>
+  </section>
+{% endif %}
